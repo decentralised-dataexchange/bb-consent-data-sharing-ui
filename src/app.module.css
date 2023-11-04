@@ -2,7 +2,24 @@
 
 @layer utilities {
     .app {
-        @apply container mx-auto text-black;
+        @apply h-screen flex justify-center items-center text-black;
     }
+
+    .txt__small {
+        @apply text-[12px];
+    }
+
+    .btn {
+        @apply tracking-[2px];
+    }
+
+    .btn:hover {
+        @apply bg-black text-white;
+    }
+
+    .btn:focus {
+        @apply bg-black text-white;
+    }
+
 
 }
