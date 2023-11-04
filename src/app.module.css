@@ -1,0 +1,8 @@
+@import "./global.module.css";
+
+@layer utilities {
+    .app {
+        @apply container mx-auto text-black;
+    }
+
+}

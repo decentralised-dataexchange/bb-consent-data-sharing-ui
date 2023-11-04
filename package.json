@@ -1,0 +1,49 @@
+{
+  "name": "bb-consent-data-sharing-ui",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "files": [
+    "dist"
+  ],
+  "main": "./dist/consentBbDataSharingUi.umd.cjs",
+  "module": "./dist/consentBbDataSharingUi.js",
+  "exports": {
+    ".": {
+      "import": "./dist/consentBbDataSharingUi.js",
+      "require": "./dist/consentBbDataSharingUi.umd.cjs"
+    }
+  },
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "build:watch": "vite build --watch",
+    "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@ant-design/icons": "^5.2.6",
+    "antd": "^5.11.0",
+    "axios": "^1.6.0",
+    "classnames": "^2.3.2",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "swr": "^2.2.4",
+    "terser": "^5.24.0"
+  },
+  "devDependencies": {
+    "@rollup/plugin-replace": "^5.0.5",
+    "@tailwindcss/forms": "^0.5.6",
+    "@types/react": "^18.2.15",
+    "@types/react-dom": "^18.2.7",
+    "@vitejs/plugin-react": "^4.0.3",
+    "autoprefixer": "^10.4.16",
+    "eslint": "^8.45.0",
+    "eslint-plugin-react": "^7.32.2",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "eslint-plugin-react-refresh": "^0.4.3",
+    "postcss": "^8.4.31",
+    "tailwindcss": "^3.3.5",
+    "vite": "^4.4.5"
+  }
+}
