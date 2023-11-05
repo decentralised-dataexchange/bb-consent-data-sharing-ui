@@ -1,0 +1,7 @@
+@import "../../global.module.css";
+
+@layer utilities {
+  .dataAgreementValue {
+    @apply text-end text-[grey];
+  }
+}
