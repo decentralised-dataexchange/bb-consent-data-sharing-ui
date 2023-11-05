@@ -2,7 +2,7 @@
 
 @layer utilities {
   .app {
-    @apply h-screen flex justify-center items-center text-black;
+    @apply min-h-[90dvh] flex justify-center items-center text-black;
   }
 
   .txt__small {
