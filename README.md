@@ -67,6 +67,7 @@ Include the provided HTML in your project to integrate the Consent BB Data Shari
     </script>
   </body>
 </html>
+```
 
 ## Configuration
 
