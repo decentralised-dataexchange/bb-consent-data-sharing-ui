@@ -1,15 +1,4 @@
 @import "../../global.module.css";
 
 @layer utilities {
-  .btn {
-    @apply tracking-[2px];
-  }
-
-  .btn:hover {
-    @apply bg-black text-white;
-  }
-
-  .btn:focus {
-    @apply bg-black text-white;
-  }
 }

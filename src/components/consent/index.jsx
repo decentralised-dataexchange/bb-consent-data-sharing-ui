@@ -1,37 +1,64 @@
 import { useState } from "react";
-import tw from "./consent.module.css";
-import cx from "classnames";
-import {
-  Col,
-  Row,
-  Card,
-  Button,
-  Divider,
-  Avatar,
-  Space,
-  Typography,
-  ConfigProvider,
-  Modal,
-} from "antd";
-import { BsArrowLeftRight } from "react-icons/bs";
+import { Col, Row, Space, Typography, Modal, notification } from "antd";
 import DataAgreement from "../dataAgreement";
+import Headline from "./Headline";
+import CustomButton from "../button";
+import { useAppContext } from "../../providers/AppContext";
+import DataTransferIndicator from "./DataTransferIndicator";
+import DataAttributes from "./DataAttributes";
+import { HttpService, getAuthenticationHeaders } from "../../services/http";
 
 const { Text, Link } = Typography;
 
+const formatLawfulBasisOfProcessing = (inputString) => {
+  const words = inputString.split("_");
+  const formattedWords = words.map(
+    (word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()
+  );
+  return formattedWords.join(" ");
+};
+
 export const Consent = () => {
-  const [dus] = useState("Data4Diabetes");
-  const [ds] = useState("Skatteverket");
-  const [purpose] = useState("user registration");
-  const [dataAttributes] = useState([
-    "Name",
-    "Personnel Number",
-    "Mobile",
-    "Address",
-  ]);
+  const context = useAppContext();
   const [showDataAgreement, setShowDataAgreement] = useState(false);
 
-  const handleAuthoriseClick = () => {
-    window.location.href = "https://govstack.global/?agree=true";
+  const handleClickAuthorise = () => {
+    // Instantiate HTTP service
+    const httpService = HttpService(
+      context.baseUrlState,
+      getAuthenticationHeaders(
+        context.accessTokenState,
+        context.apiKeyState,
+        context.individualIdState
+      )
+    );
+
+    // Create consent record
+    httpService
+      .createConsentRecord(context.dataAgreementIdState)
+      .then((createConsentRecordRes) => {
+        if (createConsentRecordRes.status === 200) {
+          // If consent record created successfully then
+          // redirect to authorisation redirect url with consent record id
+          window.location.href = `${context.authoriseRedirectUrlState}?consentRecordId=${createConsentRecordRes.data.consentRecord.id}`;
+        }
+      })
+      .catch((createConsentRecordErr) => {
+        console.error(
+          `Error occured while recording consent: ${createConsentRecordErr}`
+        );
+        // Show notification for the error
+        notification.error({
+          message: "Error",
+          description: "Failed to record consent. Please try again.",
+        });
+      });
+  };
+
+  const handleClickCancel = () => {
+    const error = "authorise_cancelled";
+    const error_description = "Authorisation has been cancelled";
+    window.location.href = `${context.cancelRedirectUrlState}?error=${error}&error_description=${error_description}`;
   };
 
   return (
@@ -39,78 +66,41 @@ export const Consent = () => {
       <Space size={16} direction="vertical">
         <Row justify={"center"} align={"middle"}>
           <Col xs={24}>
-            <Space
-              size={16}
-              style={{ display: "flex", justifyContent: "center" }}
-            >
-              <Avatar
-                size={70}
-                src={
-                  <img
-                    src={
-                      "https://storage.googleapis.com/data4diabetes/web%20(5).jpeg"
-                    }
-                    alt="avatar"
-                  />
-                }
-              />
-              <BsArrowLeftRight size={35} color="#aaaaaa" />
-              <Avatar
-                size={70}
-                src={
-                  <img
-                    src={
-                      "https://storage.googleapis.com/data4diabetes/images%20(1).png"
-                    }
-                    alt="avatar"
-                  />
-                }
-              />
-            </Space>
+            <DataTransferIndicator
+              thirdPartyOrgLogoImageUrl={context.thirdPartyOrgLogoImageUrlState}
+              dataSourceOrgLogoImageUrl={context.orgLogoImageState}
+            />
+          </Col>
+        </Row>
+        <Row>
+          <Col xs={24}>
+            <Headline
+              dus={context.thirdPartyOrgNameState}
+              ds={context.organisationState.name}
+              purpose={context.dataAgreementState.purpose}
+            />
           </Col>
         </Row>
         <Row>
           <Col xs={24}>
             <Text>
-              <Text strong>{dus}</Text> wants to access the following data from{" "}
-              <Text strong>{ds}</Text> for {purpose}.
+              By clicking Authorise, {context.thirdPartyOrgNameState} will be
+              able to read the following data attributes:
             </Text>
           </Col>
         </Row>
         <Row>
           <Col xs={24}>
-            <Text>
-              By clicking CONSENT, {dus} will be able to read the following data
-              attributes:
+            <DataAttributes
+              dataAttributes={context.dataAgreementState.dataAttributes}
+            />
+          </Col>
+        </Row>
+        <Row>
+          <Col xs={24}>
+            <Text strong>
+              Make sure that you trust {context.thirdPartyOrgNameState}
             </Text>
-          </Col>
-        </Row>
-        <Row>
-          <Col xs={24}>
-            <Card bodyStyle={{ padding: "12px", background: "#f7f6f6" }}>
-              <Space
-                direction="vertical"
-                style={{ width: "100%" }}
-                split={
-                  <Divider style={{ margin: 0, backgroundColor: "#dfdfdf" }} />
-                }
-              >
-                {dataAttributes.map((dataAttribute, i) => {
-                  return (
-                    <>
-                      <p key={i} style={{ margin: 0 }}>
-                        {dataAttribute}
-                      </p>
-                    </>
-                  );
-                })}
-              </Space>
-            </Card>
-          </Col>
-        </Row>
-        <Row>
-          <Col xs={24}>
-            <Text strong>Make sure that you trust {dus}</Text>
           </Col>
         </Row>
         <Row>
@@ -123,7 +113,7 @@ export const Consent = () => {
               and{" "}
               <Link
                 underline
-                href="https://www.govstack.global/privacy/"
+                href={context.organisationState.policyUrl}
                 target="_blank"
               >
                 Terms of Service
@@ -133,34 +123,25 @@ export const Consent = () => {
           </Col>
         </Row>
         <Row>
-          <Col xs={24} style={{ display: "flex", justifyContent: "center" }}>
-            <ConfigProvider
-              theme={{
-                token: {
-                  colorPrimaryHover: "#fff",
-                  colorPrimaryActive: "#fff",
-                },
-                components: {
-                  Button: {
-                    defaultBorderColor: "#dfdfdf",
-                    defaultBg: "#fff",
-                  },
-                },
-              }}
-            >
-              <Button
-                shape="round"
-                type="default"
-                size={"large"}
-                className={cx(tw.btn)}
-                style={{
-                  width: "80%",
-                }}
-                onClick={handleAuthoriseClick}
-              >
-                CONSENT
-              </Button>
-            </ConfigProvider>
+          <Col xs={12} style={{ display: "flex", justifyContent: "center" }}>
+            <CustomButton
+              onClick={handleClickCancel}
+              label={
+                context.cancelBtnLabelState !== undefined
+                  ? context.cancelBtnLabelState
+                  : "Cancel"
+              }
+            />
+          </Col>
+          <Col xs={12} style={{ display: "flex", justifyContent: "center" }}>
+            <CustomButton
+              onClick={handleClickAuthorise}
+              label={
+                context.authoriseBtnLabelState !== undefined
+                  ? context.authoriseBtnLabelState
+                  : "Authorise"
+              }
+            />
           </Col>
         </Row>
       </Space>
@@ -172,7 +153,25 @@ export const Consent = () => {
         onCancel={() => setShowDataAgreement(false)}
         footer={null}
       >
-        <DataAgreement />
+        <DataAgreement
+          version={context.dataAgreementState.version}
+          purpose={context.dataAgreementState.purpose}
+          purposeDescription={context.dataAgreementState.purposeDescription}
+          lawfulBasisOfProcessing={formatLawfulBasisOfProcessing(
+            context.dataAgreementState.lawfulBasis
+          )}
+          policyUrl={context.dataAgreementState.policy.url}
+          jurisdiction={context.dataAgreementState.policy.jurisdiction}
+          industrySector={context.dataAgreementState.policy.industrySector}
+          dataRetentionPeriodInYears={(
+            context.dataAgreementState.policy.dataRetentionPeriodDays / 365
+          ).toFixed(1)}
+          geographicRestriction={
+            context.dataAgreementState.policy.geographicRestriction
+          }
+          storageLocation={context.dataAgreementState.policy.storageLocation}
+          thirdPartyDataSharing={context.dataAgreementState.policy.thirdPartyDataSharing.toString()}
+        />
       </Modal>
     </>
   );

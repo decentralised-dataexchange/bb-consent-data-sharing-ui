@@ -18,7 +18,18 @@
       src="https://cdn.jsdelivr.net/gh/decentralised-dataexchange/bb-consent-data-sharing-ui/dist/consentBbDataSharingUi.js"
     ></script>
     <script>
-      window.ConsentBbDataSharingUi();
+      window.ConsentBbDataSharingUi({
+        baseUrl: "https://staging-consent-bb-api.igrant.io/v2",
+        dataAgreementId: "654cf0db9684ed907ce07c5f",
+        // accessToken:
+        //   "eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJzYm4xLVZqU3ZHM2Mzb2ozVWl2NlIyNnJDbTBTQWU1WVhDT1hySTBHM0hvIn0.eyJleHAiOjE2OTk3MTQwNzAsImlhdCI6MTY5OTcxMzc3MCwiYXV0aF90aW1lIjoxNjk5NzEzNzU3LCJqdGkiOiJiNDE1ZmIxNS0yMWFiLTRhYzMtYmVlZS0wN2Y5MjQwNzNiYzAiLCJpc3MiOiJodHRwczovL3N0YWdpbmctY29uc2VudC1iYi1pYW0uaWdyYW50LmlvL3JlYWxtcy8zcHAtYXBwbGljYXRpb24iLCJhdWQiOiJhY2NvdW50Iiwic3ViIjoiMmRhMDA2ZDMtY2M0My00ZDFlLWE1MjgtMWM5M2U3YzBhODlkIiwidHlwIjoiQmVhcmVyIiwiYXpwIjoiM3BwIiwic2Vzc2lvbl9zdGF0ZSI6IjMzMTJhMzNmLTExNjUtNGIxNS1hYjU4LTc0ZDNjYmE5ZjM4NyIsImFjciI6IjEiLCJhbGxvd2VkLW9yaWdpbnMiOlsiKiJdLCJyZWFsbV9hY2Nlc3MiOnsicm9sZXMiOlsib2ZmbGluZV9hY2Nlc3MiLCJ1bWFfYXV0aG9yaXphdGlvbiIsImRlZmF1bHQtcm9sZXMtM3BwIl19LCJyZXNvdXJjZV9hY2Nlc3MiOnsiYWNjb3VudCI6eyJyb2xlcyI6WyJtYW5hZ2UtYWNjb3VudCIsIm1hbmFnZS1hY2NvdW50LWxpbmtzIiwidmlldy1wcm9maWxlIl19fSwic2NvcGUiOiJwcm9maWxlIGVtYWlsIiwic2lkIjoiMzMxMmEzM2YtMTE2NS00YjE1LWFiNTgtNzRkM2NiYTlmMzg3IiwiZW1haWxfdmVyaWZpZWQiOmZhbHNlLCJuYW1lIjoiSm9obiBEb2UiLCJwcmVmZXJyZWRfdXNlcm5hbWUiOiJqb2huZG9lQHlvcG1haWwuY29tIiwiZ2l2ZW5fbmFtZSI6IkpvaG4iLCJmYW1pbHlfbmFtZSI6IkRvZSIsImVtYWlsIjoiam9obmRvZUB5b3BtYWlsLmNvbSJ9.rEjzEJwTh21qVicw7ckkYReC6t0DcbYwvKr2tIlRt98F1AMy8lSHnaro2q8SJhAWDLAiWxE3AzJOh_SgYENhqn7Kfbm5Z38au50TCjoIxfJa_m53GRp2ouenxPxqSgsqrJ5idLWyRCfAUIE00nzsx1B4tJgz3dVc-lMi71GN3RigjqhlytB8IM2T-JPwYfZnpL37M2a8oe-ivgwtAQ_RSn6OLoSry2T934_ZiCsY8QWfvPahuPpjz2UOoDc07MOsX0Gko7rn496GgoDSSeukBH7g030TatwsLnkO9iVnQn92kdfTMAetJRPM996n_i8TW5bV_l2pCT8mYuhBJZ3cJA",
+        apiKey:
+          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJTY29wZXMiOlsic2VydmljZSJdLCJPcmdhbmlzYXRpb25JZCI6IjY1MjY1Nzk2OTM4MGYzNWZhMWMzMDI0NSIsIk9yZ2FuaXNhdGlvbkFkbWluSWQiOiI2NTI2NTc5NjkzODBmMzVmYTFjMzAyNDMiLCJleHAiOjE3MDIxMzQ4Mjh9.IrwT9zhg-vXaDp3QcgSUDMwMzV3y_pK9-K3Rp45-1XI",
+        individualId: "65364080db611cb1948aca38",
+        thirdPartyOrgName: "Data4Diabetes",
+        thirdPartyOrgLogoImageUrl: undefined,
+        authoriseRedirectUrl: "http://localhost:8000",
+      });
     </script>
   </body>
 </html>

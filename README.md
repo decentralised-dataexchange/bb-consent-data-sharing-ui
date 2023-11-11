@@ -32,6 +32,53 @@ The key deliverables of the project are as given. The table summarises the relea
 
 * Wiki - https://github.com/decentralised-dataexchange/consent-dev-docs/wiki
 
+## Usage
+Include the provided HTML in your project to integrate the Consent BB Data Sharing UI. Adjust the configuration parameters based on your requirements.
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Consent BB Data Sharing UI</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/decentralised-dataexchange/bb-consent-data-sharing-ui/dist/consentBbDataSharingUi.css" />
+  </head>
+  <body style="margin: 0px">
+    <div id="consentBbDataSharingUi"></div>
+
+    <script
+      data-element-id="consentBbDataSharingUi"
+      id="consentBbDataSharingUi-script"
+      src="https://cdn.jsdelivr.net/gh/decentralised-dataexchange/bb-consent-data-sharing-ui/dist/consentBbDataSharingUi.js"
+    ></script>
+    <script>
+      window.ConsentBbDataSharingUi({
+        baseUrl: "CONSENT_BB_API_BASE_URL",
+        dataAgreementId: "DATA_AGREEMENT_ID",
+        accessToken:"YOUR_ACCESS_TOKEN",
+        apiKey: "YOUR_API_KEY",
+        individualId: "INDIVIDUAL_ID",
+        thirdPartyOrgName: "THIRD_PARTY_ORG_NAME",
+        thirdPartyOrgLogoImageUrl: "THIRD_PARTY_ORG_LOGO_IMAGE_URL",
+        authoriseRedirectUrl: "AUTHORISE_REDIRECT_URL",
+        cancelRedirectUrl: "CANCEL_REDIRECT_URL",
+      });
+    </script>
+  </body>
+</html>
+
+## Configuration
+
+- `baseUrl`: Base URL for API requests.
+- `dataAgreementId`: ID of the data agreement.
+- `accessToken`: (Optional) Access token for authentication.
+- `apiKey`: API key for authentication.
+- `individualId`: ID of the individual.
+- `thirdPartyOrgName`: Name of the third-party organization.
+- `thirdPartyOrgLogoImageUrl`: (Optional) URL of the third-party organization's logo image.
+- `authoriseRedirectUrl`: URL for redirection after authorization.
+
 ## Contributing
 
 Feel free to improve the plugin and send us a pull request. If you find any problems, please create an issue in this repo.
