@@ -10,11 +10,16 @@ import { HttpService, getAuthenticationHeaders } from "../../services/http";
 
 const { Text, Link } = Typography;
 
+// Format lawful basis of processing by removing underscores
+// and uppercasing first letter of the word
 const formatLawfulBasisOfProcessing = (inputString) => {
+  // Split into words by 'underscore'
   const words = inputString.split("_");
+  // Uppercase the first character of the word
   const formattedWords = words.map(
     (word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()
   );
+  // Join the words by 'space'
   return formattedWords.join(" ");
 };
 
@@ -33,32 +38,61 @@ export const Consent = () => {
       )
     );
 
-    // Create consent record
-    httpService
-      .createConsentRecord(context.dataAgreementIdState)
-      .then((createConsentRecordRes) => {
-        if (createConsentRecordRes.status === 200) {
-          // If consent record created successfully then
-          // redirect to authorisation redirect url with consent record id
-          window.location.href = `${context.authoriseRedirectUrlState}?consentRecordId=${createConsentRecordRes.data.consentRecord.id}`;
-        }
-      })
-      .catch((createConsentRecordErr) => {
-        console.error(
-          `Error occured while recording consent: ${createConsentRecordErr}`
-        );
-        // Show notification for the error
-        notification.error({
-          message: "Error",
-          description: "Failed to record consent. Please try again.",
+    if (context.consentRecordState === undefined) {
+      // Create consent record
+      httpService
+        .createConsentRecord(context.dataAgreementIdState)
+        .then((createConsentRecordRes) => {
+          if (createConsentRecordRes.status === 200) {
+            // If consent record created successfully then
+            // redirect to authorisation redirect url with consent record id
+            window.location.href = `${context.dataSharingUiRedirectUrlState}?consentRecordId=${createConsentRecordRes.data.consentRecord.id}`;
+          }
+        })
+        .catch((createConsentRecordErr) => {
+          console.error(
+            `Error occured while recording consent: ${createConsentRecordErr}`
+          );
+          // Show notification for the error
+          notification.error({
+            message: "Error",
+            description: "Failed to record consent. Please try again.",
+          });
         });
-      });
+    } else {
+      // Update consent record
+      httpService
+        .updateConsentRecord(
+          context.consentRecordState.id,
+          context.consentRecordState.dataAgreementId,
+          context.consentRecordState.individualId,
+          true
+        )
+        .then((createConsentRecordRes) => {
+          if (createConsentRecordRes.status === 200) {
+            // If consent record updated successfully then
+            // redirect to authorisation redirect url with consent record id
+            window.location.href = `${context.dataSharingUiRedirectUrlState}?consentRecordId=${createConsentRecordRes.data.consentRecord.id}`;
+          }
+        })
+        .catch((createConsentRecordErr) => {
+          console.error(
+            `Error occured while recording consent: ${createConsentRecordErr}`
+          );
+          // Show notification for the error
+          notification.error({
+            message: "Error",
+            description: "Failed to record consent. Please try again.",
+          });
+        });
+    }
   };
 
   const handleClickCancel = () => {
+    // Redirect with error and errorDescription query params.
     const error = "authorise_cancelled";
-    const error_description = "Authorisation has been cancelled";
-    window.location.href = `${context.cancelRedirectUrlState}?error=${error}&error_description=${error_description}`;
+    const errorDescription = "Authorisation has been cancelled";
+    window.location.href = `${context.dataSharingUiRedirectUrlState}?error=${error}&errorDescription=${errorDescription}`;
   };
 
   return (

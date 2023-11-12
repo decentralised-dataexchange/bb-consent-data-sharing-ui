@@ -11,7 +11,7 @@ export const getAuthenticationHeaders = (accessToken, apiKey, individualId) => {
   } else {
     return {
       Authorization: `ApiKey ${apiKey}`,
-      "X-ConsentBB-IndividualId": `ApiKey ${individualId}`,
+      "X-ConsentBB-IndividualId": `${individualId}`,
     };
   }
 };
@@ -56,6 +56,46 @@ export const HttpService = (baseUrl, headers) => {
       };
       return httpClient.get(
         ENDPOINTS.readConsentRecord(dataAgreementId, baseUrl),
+        config
+      );
+    },
+    updateConsentRecord: async (
+      consentRecordId,
+      dataAgreementId,
+      individualId,
+      optIn
+    ) => {
+      const config = {
+        headers: { ...headers },
+      };
+      const data = {
+        optIn: optIn,
+      };
+      return httpClient.put(
+        ENDPOINTS.updateConsentRecord(
+          consentRecordId,
+          dataAgreementId,
+          individualId,
+          baseUrl
+        ),
+        data,
+        config
+      );
+    },
+    exchangeAuthorisationCodeForToken: async (
+      authorisationRedirectUrl,
+      authorisationCode
+    ) => {
+      const config = {
+        headers: { ...headers },
+      };
+      return httpClient.post(
+        ENDPOINTS.exchangeAuthorisationCodeForToken(
+          authorisationRedirectUrl,
+          authorisationCode,
+          baseUrl
+        ),
+        null,
         config
       );
     },

@@ -9,10 +9,6 @@ import { HttpService, getAuthenticationHeaders } from "./services/http";
 const App = () => {
   const context = useAppContext();
 
-  const redirectToAuthoriseUrl = (consentRecordId) => {
-    window.location.href = `${context.authoriseRedirectUrlState}?consentRecordId=${consentRecordId}`;
-  };
-
   const populateDataSharingUi = async (httpService) => {
     try {
       // Read organisation and data agreement
@@ -60,31 +56,63 @@ const App = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      // Instantiate HTTP service
-      const httpService = HttpService(
-        context.baseUrlState,
-        getAuthenticationHeaders(
-          context.accessTokenState,
-          context.apiKeyState,
-          context.individualIdState
-        )
+      // Instantiate authentication headers
+      let headers = getAuthenticationHeaders(
+        context.accessTokenState,
+        context.apiKeyState,
+        context.individualIdState
       );
 
+      if (
+        context.authorisationCodeState !== undefined &&
+        context.authorisationRedirectUrlState !== undefined
+      ) {
+        // OIDC authorisation code flow
+        // If `authorisationCode` and `authorisationRedirectUrl` is provided then
+        // perform exchange code to obtain access token workflow.
+
+        // Instantiate HTTP service
+        const httpService = HttpService(context.baseUrlState, {});
+        const exchangeAuthorisationCodeForTokenRes =
+          await httpService.exchangeAuthorisationCodeForToken(
+            context.authorisationRedirectUrlState,
+            context.authorisationCodeState
+          );
+
+        if (exchangeAuthorisationCodeForTokenRes.status === 200) {
+          // Update access token in state
+          context.setAccessTokenState(
+            exchangeAuthorisationCodeForTokenRes.data.token.accessToken
+          );
+
+          // Update headers with new access token
+          headers = getAuthenticationHeaders(
+            exchangeAuthorisationCodeForTokenRes.data.token.accessToken,
+            undefined,
+            undefined
+          );
+        }
+      }
+
+      // Instantiate HTTP service
+      const httpService2 = HttpService(context.baseUrlState, headers);
+
       // Read consent record for the data agreement
-      httpService
+      httpService2
         .readConsentRecord(context.dataAgreementIdState)
         .then((readConsentRecordRes) => {
           if (readConsentRecordRes.status === 200) {
-            // Consent record is present
-            // Execute the 'authorise' flow and return consent record id
             if (readConsentRecordRes.data.consentRecord !== null) {
-              redirectToAuthoriseUrl(
-                readConsentRecordRes.data.consentRecord.id
+              // Consent record is present
+              // Then it should be updated
+              context.setConsentRecordState(
+                readConsentRecordRes.data.consentRecord
               );
+              populateDataSharingUi(httpService2);
             } else {
-              // Consent record is not present
+              // Consent record present
               // Show data agreement UI and collect authorisation
-              populateDataSharingUi(httpService);
+              populateDataSharingUi(httpService2);
             }
           }
         })
@@ -95,7 +123,7 @@ const App = () => {
             "Error occured while reading consent record: ",
             readConsentRecordErr
           );
-          populateDataSharingUi(httpService);
+          populateDataSharingUi(httpService2);
         });
     };
 

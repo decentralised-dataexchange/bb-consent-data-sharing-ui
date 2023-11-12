@@ -61,8 +61,9 @@ Include the provided HTML in your project to integrate the Consent BB Data Shari
         individualId: "INDIVIDUAL_ID",
         thirdPartyOrgName: "THIRD_PARTY_ORG_NAME",
         thirdPartyOrgLogoImageUrl: "THIRD_PARTY_ORG_LOGO_IMAGE_URL",
-        authoriseRedirectUrl: "AUTHORISE_REDIRECT_URL",
-        cancelRedirectUrl: "CANCEL_REDIRECT_URL",
+        dataSharingUiRedirectUrl: "DATA_SHARING_UI_REDIRECT_URL",
+        authorisationCode: "AUTHORISATION_CODE",
+        authorisationRedirectUrl: "AUTHORISATION_REDIRECT_URI",
       });
     </script>
   </body>
@@ -78,7 +79,9 @@ Include the provided HTML in your project to integrate the Consent BB Data Shari
 - `individualId`: ID of the individual.
 - `thirdPartyOrgName`: Name of the third-party organization.
 - `thirdPartyOrgLogoImageUrl`: (Optional) URL of the third-party organization's logo image.
-- `authoriseRedirectUrl`: URL for redirection after authorization.
+- `dataSharingUiRedirectUrl`: URL for redirection after authorisation/cancellation of consent.
+- `authorisationCode`: Authorisation code from OpenID connect flow.
+- `authorisationRedirectUrl`: Authorisation redirect url from OpenID connect flow.
 
 ## Contributing
 

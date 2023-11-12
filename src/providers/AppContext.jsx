@@ -14,10 +14,11 @@ const AppContextProvider = ({
   baseUrl,
   cancelBtnLabel,
   authoriseBtnLabel,
-  cancelRedirectUrl,
-  authoriseRedirectUrl,
+  dataSharingUiRedirectUrl,
   thirdPartyOrgName,
   thirdPartyOrgLogoImageUrl,
+  authorisationRedirectUrl,
+  authorisationCode,
   children,
 }) => {
   // Api key
@@ -37,12 +38,9 @@ const AppContextProvider = ({
   // Authorise button label
   const [authoriseBtnLabelState, setAuthoriseBtnLabelState] =
     useState(authoriseBtnLabel);
-  // Cancel redirect url
-  const [cancelRedirectUrlState, setCancelRedirectUrlState] =
-    useState(cancelRedirectUrl);
-  // Authorise redirect url
-  const [authoriseRedirectUrlState, setAuthoriseRedirectUrlState] =
-    useState(authoriseRedirectUrl);
+  // Data sharing ui redirect url
+  const [dataSharingUiRedirectUrlState, setDataSharingUiRedirectUrlState] =
+    useState(dataSharingUiRedirectUrl);
   // Loading
   const [loadingState, setLoadingState] = useState(true);
   // Organisation
@@ -57,6 +55,14 @@ const AppContextProvider = ({
   // Third party org logo image url
   const [thirdPartyOrgLogoImageUrlState, setThirdPartyOrgLogoImageUrlState] =
     useState(thirdPartyOrgLogoImageUrl);
+  // Authorisation redirect url
+  const [authorisationRedirectUrlState, setAuthorisationRedirectUrlState] =
+    useState(authorisationRedirectUrl);
+  // Authorisation code
+  const [authorisationCodeState, setAuthorisationCodeState] =
+    useState(authorisationCode);
+  // Consent record
+  const [consentRecordState, setConsentRecordState] = useState(undefined);
 
   const contextValue = {
     apiKeyState,
@@ -71,10 +77,8 @@ const AppContextProvider = ({
     setCancelBtnLabelState,
     authoriseBtnLabelState,
     setAuthoriseBtnLabelState,
-    cancelRedirectUrlState,
-    setCancelRedirectUrlState,
-    authoriseRedirectUrlState,
-    setAuthoriseRedirectUrlState,
+    dataSharingUiRedirectUrlState,
+    setDataSharingUiRedirectUrlState,
     dataAgreementIdState,
     setDataAgreementIdState,
     loadingState,
@@ -89,6 +93,12 @@ const AppContextProvider = ({
     setThirdPartyOrgNameState,
     thirdPartyOrgLogoImageUrlState,
     setThirdPartyOrgLogoImageUrlState,
+    authorisationRedirectUrlState,
+    setAuthorisationRedirectUrlState,
+    authorisationCodeState,
+    setAuthorisationCodeState,
+    consentRecordState,
+    setConsentRecordState,
   };
 
   return (
@@ -103,12 +113,13 @@ AppContextProvider.propTypes = {
   baseUrl: PropTypes.string,
   cancelBtnLabel: PropTypes.string,
   authoriseBtnLabel: PropTypes.string,
-  cancelRedirectUrl: PropTypes.string,
-  authoriseRedirectUrl: PropTypes.string,
+  dataSharingUiRedirectUrl: PropTypes.string,
   thirdPartyOrgName: PropTypes.string,
   thirdPartyOrgLogoImageUrl: PropTypes.string,
   dataAgreementId: PropTypes.string,
   children: PropTypes.node,
+  authorisationRedirectUrl: PropTypes.string,
+  authorisationCode: PropTypes.string,
 };
 
 export { AppContextProvider, useAppContext };

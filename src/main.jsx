@@ -16,10 +16,11 @@ window.ConsentBbDataSharingUi = ({
   baseUrl,
   cancelBtnLabel,
   authoriseBtnLabel,
-  cancelRedirectUrl,
-  authoriseRedirectUrl,
+  dataSharingUiRedirectUrl,
   thirdPartyOrgName,
   thirdPartyOrgLogoImageUrl,
+  authorisationRedirectUrl,
+  authorisationCode,
 }) => {
   ReactDOM.createRoot(document.getElementById(elementId)).render(
     <React.StrictMode>
@@ -31,10 +32,11 @@ window.ConsentBbDataSharingUi = ({
         baseUrl={baseUrl}
         cancelBtnLabel={cancelBtnLabel}
         authoriseBtnLabel={authoriseBtnLabel}
-        cancelRedirectUrl={cancelRedirectUrl}
-        authoriseRedirectUrl={authoriseRedirectUrl}
+        dataSharingUiRedirectUrl={dataSharingUiRedirectUrl}
         thirdPartyOrgName={thirdPartyOrgName}
         thirdPartyOrgLogoImageUrl={thirdPartyOrgLogoImageUrl}
+        authorisationRedirectUrl={authorisationRedirectUrl}
+        authorisationCode={authorisationCode}
       >
         <App />
       </AppContextProvider>
