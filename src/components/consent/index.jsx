@@ -46,7 +46,7 @@ export const Consent = () => {
           if (createConsentRecordRes.status === 200) {
             // If consent record created successfully then
             // redirect to authorisation redirect url with consent record id
-            window.location.href = `${context.dataSharingUiRedirectUrlState}?consentRecordId=${createConsentRecordRes.data.consentRecord.id}`;
+            window.location.href = `${context.dataSharingUiRedirectUrlState}?consentRecordId=${createConsentRecordRes.data.consentRecord.id}&credentials=${context.exchangeCodeForAccessTokenResponseState}`;
           }
         })
         .catch((createConsentRecordErr) => {
@@ -72,7 +72,7 @@ export const Consent = () => {
           if (createConsentRecordRes.status === 200) {
             // If consent record updated successfully then
             // redirect to authorisation redirect url with consent record id
-            window.location.href = `${context.dataSharingUiRedirectUrlState}?consentRecordId=${createConsentRecordRes.data.consentRecord.id}`;
+            window.location.href = `${context.dataSharingUiRedirectUrlState}?consentRecordId=${createConsentRecordRes.data.consentRecord.id}&credentials=${context.exchangeCodeForAccessTokenResponseState}`;
           }
         })
         .catch((createConsentRecordErr) => {

@@ -6,6 +6,22 @@ import { useAppContext } from "./providers/AppContext";
 import { useEffect } from "react";
 import { HttpService, getAuthenticationHeaders } from "./services/http";
 
+const base64UrlEncode = (jsonObject) => {
+  // Convert JSON object to a string
+  const jsonString = JSON.stringify(jsonObject);
+
+  // Base64 encode the string
+  const base64String = btoa(jsonString);
+
+  // Make the Base64 string URL-safe
+  const urlSafeBase64 = base64String
+    .replace(/\+/g, "-")
+    .replace(/\//g, "_")
+    .replace(/=+$/, "");
+
+  return urlSafeBase64;
+};
+
 const App = () => {
   const context = useAppContext();
 
@@ -80,6 +96,11 @@ const App = () => {
           );
 
         if (exchangeAuthorisationCodeForTokenRes.status === 200) {
+          // Save response to state
+          context.setExchangeCodeForAccessTokenResponseState(
+            base64UrlEncode(exchangeAuthorisationCodeForTokenRes.data)
+          );
+
           // Update access token in state
           context.setAccessTokenState(
             exchangeAuthorisationCodeForTokenRes.data.token.accessToken

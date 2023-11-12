@@ -63,6 +63,11 @@ const AppContextProvider = ({
     useState(authorisationCode);
   // Consent record
   const [consentRecordState, setConsentRecordState] = useState(undefined);
+  // Exchange code for access token response
+  const [
+    exchangeCodeForAccessTokenResponseState,
+    setExchangeCodeForAccessTokenResponseState,
+  ] = useState(undefined);
 
   const contextValue = {
     apiKeyState,
@@ -99,6 +104,8 @@ const AppContextProvider = ({
     setAuthorisationCodeState,
     consentRecordState,
     setConsentRecordState,
+    exchangeCodeForAccessTokenResponseState,
+    setExchangeCodeForAccessTokenResponseState,
   };
 
   return (
