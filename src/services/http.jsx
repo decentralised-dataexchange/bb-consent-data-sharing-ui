@@ -89,14 +89,12 @@ export const HttpService = (baseUrl, headers) => {
       const config = {
         headers: { ...headers },
       };
-      const encodedRedirectUrl = encodeURIComponent(authorisationRedirectUrl);
+      const data = {
+        redirectUri: authorisationRedirectUrl,
+      };
       return httpClient.post(
-        ENDPOINTS.exchangeAuthorisationCodeForToken(
-          encodedRedirectUrl,
-          authorisationCode,
-          baseUrl
-        ),
-        null,
+        ENDPOINTS.exchangeAuthorisationCodeForToken(authorisationCode, baseUrl),
+        data,
         config
       );
     },

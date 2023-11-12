@@ -20,10 +20,9 @@ export const ENDPOINTS = {
     return `${baseUrl}/service/individual/record/consent-record/${consentRecordId}?individualId=${individualId}&dataAgreementId=${dataAgreementId}`;
   },
   exchangeAuthorisationCodeForToken: (
-    authorisationRedirectUrl,
     authorisationCode,
     baseUrl
   ) => {
-    return `${baseUrl}/onboard/token/exchange?redirectUri=${authorisationRedirectUrl}&authorisationCode=${authorisationCode}`;
+    return `${baseUrl}/onboard/token/exchange?authorisationCode=${authorisationCode}`;
   },
 };
