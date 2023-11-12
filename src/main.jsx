@@ -22,22 +22,27 @@ window.ConsentBbDataSharingUi = ({
   authorisationRedirectUrl,
   authorisationCode,
 }) => {
+  const sanitizeValue = (value) =>
+    value === undefined || value.length === 0 ? undefined : value;
+
+  const contextProps = {
+    dataAgreementId: sanitizeValue(dataAgreementId),
+    apiKey: sanitizeValue(apiKey),
+    individualId: sanitizeValue(individualId),
+    accessToken: sanitizeValue(accessToken),
+    baseUrl: sanitizeValue(baseUrl),
+    cancelBtnLabel: sanitizeValue(cancelBtnLabel),
+    authoriseBtnLabel: sanitizeValue(authoriseBtnLabel),
+    dataSharingUiRedirectUrl: sanitizeValue(dataSharingUiRedirectUrl),
+    thirdPartyOrgName: sanitizeValue(thirdPartyOrgName),
+    thirdPartyOrgLogoImageUrl: sanitizeValue(thirdPartyOrgLogoImageUrl),
+    authorisationRedirectUrl: sanitizeValue(authorisationRedirectUrl),
+    authorisationCode: sanitizeValue(authorisationCode),
+  };
+
   ReactDOM.createRoot(document.getElementById(elementId)).render(
     <React.StrictMode>
-      <AppContextProvider
-        dataAgreementId={dataAgreementId}
-        apiKey={apiKey}
-        individualId={individualId}
-        accessToken={accessToken}
-        baseUrl={baseUrl}
-        cancelBtnLabel={cancelBtnLabel}
-        authoriseBtnLabel={authoriseBtnLabel}
-        dataSharingUiRedirectUrl={dataSharingUiRedirectUrl}
-        thirdPartyOrgName={thirdPartyOrgName}
-        thirdPartyOrgLogoImageUrl={thirdPartyOrgLogoImageUrl}
-        authorisationRedirectUrl={authorisationRedirectUrl}
-        authorisationCode={authorisationCode}
-      >
+      <AppContextProvider {...contextProps}>
         <App />
       </AppContextProvider>
     </React.StrictMode>
