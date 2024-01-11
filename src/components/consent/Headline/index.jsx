@@ -5,7 +5,7 @@ const { Text } = Typography;
 // Headline
 const Headline = ({ dus, ds, purpose }) => {
   return (
-    <div style={{ textAlign: "center" }}>
+    <div style={{ textAlign: "left" }}>
       <Text style={{ fontSize: "16px" }}>
         <Text strong style={{ fontSize: "16px" }}>
           {dus}
